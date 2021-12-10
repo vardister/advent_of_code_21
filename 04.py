@@ -4,6 +4,7 @@ from typing import NamedTuple
 with open('04.txt') as f:
     INPUT = f.read()
 
+
 # INPUT_ex = '''7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
 
 # 22 13 17 11  0
@@ -32,17 +33,17 @@ class Board(NamedTuple):
     def has_won(self) -> bool:
         for i in range(5):
             for j in range(5):
-                if self.ints[i*5 + j] in self.left:
+                if self.ints[i * 5 + j] in self.left:
                     break
             else:
                 return True
-            
+
             for j in range(5):
-                if self.ints[i + 5*j] in self.left:
+                if self.ints[i + 5 * j] in self.left:
                     break
             else:
                 return True
-        else: 
+        else:
             return False
 
     @classmethod
@@ -57,28 +58,31 @@ first, *rest = INPUT.split('\n\n')
 boards = [Board.parse(board) for board in rest]
 ints = [int(s) for s in first.split(',')]
 
+
 # Part 1
 def get_number1() -> int:
-    for number in ints: 
+    for number in ints:
         for board in boards:
             board.left.discard(number)
-        
+
         for board in boards:
             if board.has_won:
                 return sum(board.left) * number
 
-    raise AssertionError('unreachable')   
+    raise AssertionError('unreachable')
 
-print(f'Part 1:{get_number1()}')         
+
+print(f'Part 1:{get_number1()}')
+
 
 # Part 2
 def get_number2() -> int:
     last_winner = -1
     won = set()
-    for number in ints: 
+    for number in ints:
         for board in boards:
             board.left.discard(number)
-        
+
         for i, board in enumerate(boards):
             if i not in won and board.has_won:
                 last_winner = sum(board.left) * number
@@ -86,6 +90,5 @@ def get_number2() -> int:
 
     return last_winner
 
+
 print(f'Part 2:{get_number2()}')
-
-
